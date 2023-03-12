@@ -51,7 +51,7 @@ header {
       text-decoration underline
     }
 
-    .svg-inline--fa {
+    .fa-github {
       font-size 1.5em
     }
   }
@@ -119,13 +119,22 @@ main {
       }
     }
 
-    div.heart-rate {
+    div.heart-rate { 
       display flex
       place-items center
       flex-direction row-reverse
       gap 1em
 
-      span {
+      span.heart-rate-icon {
+        font-size 4em
+        cursor default
+
+        .fa-heart {
+          color #E91E63
+        }
+      }
+
+      span.heart-rate-value {
         font-size 4em
         font-weight bold
         cursor default

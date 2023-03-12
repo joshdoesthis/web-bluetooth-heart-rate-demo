@@ -1,20 +1,23 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useState } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faHeart } from '@fortawesome/free-solid-svg-icons'
+import { useSpring, animated } from '@react-spring/web'
 
 const HeartRate = () => {
-  const [heart_rate_measurement, set_heart_rate_measurement] = useState(0)
+  const [data, set_data] = useState([])
   const [device, set_device] = useState({})
 
   const handle_heart_rate_measurement = e => {
-    const value = e.target.value
-    const flags = value.getUint8(0)
-    const rate_16_bits = flags & 0x1
-    const heart_rate = rate_16_bits
-      ? value.getUint16(1, true)
-      : value.getUint8(1)
-    set_heart_rate_measurement(heart_rate)
+    const flag = e.target.value.getUint8(0)
+    const rate_16_bits = flag & 0x1
+    const value = rate_16_bits
+      ? e.target.value.getUint16(1, true)
+      : e.target.value.getUint8(1)
+    set_data(s => [
+      ...s,
+      { service: 'heart_rate', value, created_at: new Date() }
+    ])
   }
 
   const handle_connect = async () => {
@@ -41,10 +44,22 @@ const HeartRate = () => {
     if (device.gatt.connected) {
       device.gatt.disconnect()
 
+      set_data([])
       set_device({})
-      set_heart_rate_measurement(0)
     }
   }
+
+  const [spring, spring_api] = useSpring(() => ({
+    from: { scale: 1 },
+    to: { scale: 1.2 }
+  }))
+
+  useEffect(() => {
+    spring_api.start({
+      from: { scale: 1 },
+      to: { scale: 1.2 }
+    })
+  }, [data])
 
   return (
     <>
@@ -58,12 +73,16 @@ const HeartRate = () => {
               <span>{device.name}</span>
             </div>
           </div>
-          <div className='heart-rate'>
-            <span className='heart-rate-icon'>
-              <FontAwesomeIcon icon={faHeart} />
-            </span>
-            <span className='heart-rate-value'>{heart_rate_measurement}</span>
-          </div>
+          {data[data.length - 1]?.value ? (
+            <div className='heart-rate'>
+              <animated.span className='heart-rate-icon' style={spring}>
+                <FontAwesomeIcon icon={faHeart} />
+              </animated.span>
+              <span className='heart-rate-value'>
+                {data[data.length - 1].value}
+              </span>
+            </div>
+          ) : null}
         </>
       ) : (
         <div className='disconnected'>
