@@ -1,6 +1,5 @@
 import React from 'react'
 import { useState } from 'react'
-import { Button } from '@fluentui/react-components'
 
 const HeartRate = () => {
   const [heart_rate_measurement, set_heart_rate_measurement] = useState(0)
@@ -35,9 +34,7 @@ const HeartRate = () => {
 
   return (
     <div>
-      <Button appearance='primary' onClick={handle_connect}>
-        Connect
-      </Button>
+      <button onClick={handle_connect}>Connect</button>
       <p>HR: {heart_rate_measurement}</p>
     </div>
   )

@@ -1,5 +1,4 @@
 import HeartRate from './heart-rate.jsx'
-import { HeartBrokenFilled } from '@fluentui/react-icons'
 
 function App() {
   return (
@@ -8,13 +7,14 @@ function App() {
       {navigator.bluetooth ? (
         <HeartRate />
       ) : (
-        <p>
-          Your browser does not support the{' '}
-          <a href='https://developer.mozilla.org/en-US/docs/Web/API/Web_Bluetooth_API'>
-            Web Bluetooth API
-          </a>
-          <HeartBrokenFilled primaryFill='red' />
-        </p>
+        <>
+          <p>
+            Your browser does not support the{' '}
+            <a href='https://developer.mozilla.org/en-US/docs/Web/API/Web_Bluetooth_API'>
+              Web Bluetooth API
+            </a>
+          </p>
+        </>
       )}
     </div>
   )

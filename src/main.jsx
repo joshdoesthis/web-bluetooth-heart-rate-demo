@@ -1,12 +1,11 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import App from './app'
-import { FluentProvider, teamsLightTheme } from '@fluentui/react-components'
+import 'normalize.css'
+import './index.css'
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-    <FluentProvider theme={teamsLightTheme}>
-      <App />
-    </FluentProvider>
+    <App />
   </React.StrictMode>
 )
