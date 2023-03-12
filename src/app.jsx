@@ -20,10 +20,10 @@ function App() {
             <HeartRate />
           ) : (
             <div className='not-supported'>
-              <p>
+              <span>
                 {platform.description} does not support{' '}
                 <a href='https://caniuse.com/web-bluetooth'>Web Bluetooth</a>
-              </p>
+              </span>
             </div>
           )}
         </div>
