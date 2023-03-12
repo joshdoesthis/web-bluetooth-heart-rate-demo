@@ -10,7 +10,7 @@ body {
   height 100%
   margin 0
   font-family 'Helvetica Neue', Helvetica, Arial, sans-serif
-  color #37474F
+  color #263238
 }
 
 #root {
@@ -44,11 +44,11 @@ header {
     }
 
     a:link, a:visited {
-      color #1A237E
+      color #263238
       text-decoration none
     }
     a:hover, a:active {
-      color #303F9F
+      color #263238
       text-decoration underline
     }
 
@@ -79,8 +79,8 @@ main {
       gap 1em
 
       button.connect {
-        background-color #004D40
-        border 0
+        background-color #00796B
+        border 1px solid #009688
         border-radius 0.2em
         color white
         cursor pointer
@@ -91,7 +91,7 @@ main {
         transition background-color 0.2s ease-in-out
 
         &:hover {
-          background-color #00796B
+          background-color #009688
         }
       }
     }
@@ -103,8 +103,8 @@ main {
       gap 1em
 
       button.disconnect {
-        background-color #880E4F
-        border 0
+        background-color #C2185B
+        border 1px solid #E91E63
         border-radius 0.2em
         color white
         cursor pointer
@@ -115,7 +115,7 @@ main {
         transition background-color 0.2s ease-in-out
 
         &:hover {
-          background-color #C2185B
+          background-color #E91E63
         }
       }
     }
@@ -165,6 +165,59 @@ main {
       }
       a:hover, a:active {
         color #7D6608
+      }
+    }
+  }
+}
+
+svg {
+  g {
+    rect {
+      fill #ECEFF1
+    }
+  }
+}
+
+@media(prefers-color-scheme: dark) {
+  body {
+    background-color #263238
+    color #ECEFF1
+  }
+
+  header {
+    background-color #263238
+    border-bottom 1px solid #37474F
+
+    div.container {
+      a:link, a:visited {
+        color #ECEFF1
+      }
+      a:hover, a:active {
+        color #ECEFF1
+      }
+    }
+  }
+
+  main {
+    div.container {
+      div.not-supported {
+        background-color #37474F
+        color #ECEFF1
+
+        a:link, a:visited {
+          color #ECEFF1
+        }
+        a:hover, a:active {
+          color #ECEFF1
+        }
+      }
+    }
+  }
+
+  svg {
+    g {
+      rect {
+        fill #37474F
       }
     }
   }

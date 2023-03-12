@@ -44,7 +44,6 @@ const BarChart = withParentSize(props => {
                 y={height - bar_height}
                 height={bar_height}
                 width={`${bar_width}%`}
-                fill='#ECEFF1'
               />
             </Group>
           )
