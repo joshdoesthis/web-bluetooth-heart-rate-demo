@@ -1,8 +1,11 @@
 import React from 'react'
 import { useState } from 'react'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faHeart } from '@fortawesome/free-solid-svg-icons'
 
 const HeartRate = () => {
   const [heart_rate_measurement, set_heart_rate_measurement] = useState(0)
+  const [device, set_device] = useState({})
 
   const handle_heart_rate_measurement = e => {
     const value = e.target.value
@@ -30,13 +33,46 @@ const HeartRate = () => {
       'characteristicvaluechanged',
       handle_heart_rate_measurement
     )
+
+    set_device(device)
+  }
+
+  const handle_disconnect = () => {
+    if (device.gatt.connected) {
+      device.gatt.disconnect()
+
+      set_device({})
+      set_heart_rate_measurement(0)
+    }
   }
 
   return (
-    <div>
-      <button onClick={handle_connect}>Connect</button>
-      <p>HR: {heart_rate_measurement}</p>
-    </div>
+    <>
+      {device.gatt?.connected ? (
+        <>
+          <div className='connected'>
+            <button className='disconnect' onClick={handle_disconnect}>
+              Disconnect
+            </button>
+            <div className='device-name'>
+              <span>{device.name}</span>
+            </div>
+          </div>
+          <div className='heart-rate'>
+            <span className='heart-rate-icon'>
+              <FontAwesomeIcon icon={faHeart} />
+            </span>
+            <span className='heart-rate-value'>{heart_rate_measurement}</span>
+          </div>
+        </>
+      ) : (
+        <div className='disconnected'>
+          <button className='connect' onClick={handle_connect}>
+            Connect
+          </button>
+        </div>
+      )}
+    </>
   )
 }
 
