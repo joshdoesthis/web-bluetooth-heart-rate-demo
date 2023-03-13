@@ -3,7 +3,7 @@ import { StrictMode, useState, useEffect } from 'react'
 import platform from 'platform'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faGithub } from '@fortawesome/free-brands-svg-icons'
-import { faHeart } from '@fortawesome/free-solid-svg-icons'
+import { faHeart, faAngleRight } from '@fortawesome/free-solid-svg-icons'
 import { useSpring, animated } from '@react-spring/web'
 import { Group } from '@visx/group'
 import { Bar } from '@visx/shape'
@@ -150,7 +150,11 @@ const App = () => {
     <>
       <header>
         <div className='container'>
-          <h1>Web Bluetooth Heart Rate Demo</h1>
+          <h1>
+            <a href='https://joshdoesthis.com'>Joshua Wilson</a>
+            <FontAwesomeIcon icon={faAngleRight} />
+            <span>Web Bluetooth Heart Rate Demo</span>
+          </h1>
           <a href='https://github.com/joshdoesthis/web-bluetooth-heart-rate-demo'>
             <FontAwesomeIcon icon={faGithub} />
           </a>

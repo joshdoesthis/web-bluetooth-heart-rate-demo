@@ -42,6 +42,14 @@ header {
       margin 0
       font-size 1em 
       cursor default
+      display flex
+      flex-direction row
+      align-items center
+      gap 0.4em
+
+      :last-child {
+        opacity 0.5
+      }
     }
 
     a:link, a:visited {
@@ -182,7 +190,7 @@ svg {
 @media(prefers-color-scheme: dark) {
   body {
     background-color #263238
-    color #ECEFF1
+    color #CFD8DC
   }
 
   header {
@@ -191,25 +199,37 @@ svg {
 
     div.container {
       a:link, a:visited {
-        color #ECEFF1
+        color #CFD8DC
       }
       a:hover, a:active {
-        color #ECEFF1
+        color #CFD8DC
       }
     }
   }
 
   main {
     div.container {
+      div.disconnected {
+        button.connect {
+          color #CFD8DC
+        }
+      }
+
+      div.connected {
+        button.disconnect {
+          color #CFD8DC
+        }
+      }
+
       div.not-supported {
         background-color #37474F
-        color #ECEFF1
+        color #CFD8DC
 
         a:link, a:visited {
-          color #ECEFF1
+          color #CFD8DC
         }
         a:hover, a:active {
-          color #ECEFF1
+          color #CFD8DC
         }
       }
     }
