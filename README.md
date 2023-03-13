@@ -19,9 +19,9 @@ The Bluetooth LE Heart Rate Service is a standard service that allows a heart ra
 
 ## Requirements
 
-1. A heart rate monitor that supports the Bluetooth LE Heart Rate Service
-2. A browser that supports the Web Bluetooth API
-3. A computer that supports Bluetooth LE
+- A heart rate monitor that supports the Bluetooth LE Heart Rate Service
+- A browser that supports the Web Bluetooth API
+- A computer that supports Bluetooth LE
 
 ## Demo
 
