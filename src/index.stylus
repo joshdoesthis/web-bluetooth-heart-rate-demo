@@ -30,25 +30,31 @@ header {
 
   div.container {
     width 100%
+    box-sizing border-box
     max-width $max-width-content
     margin 0 auto
     padding 1em
     display flex
     align-items center
     justify-content space-between
+    flex-wrap nowrap
     min-height 1.5em
+    gap 1em
 
     h1 {
       margin 0
       font-size 1em 
       cursor default
-      display flex
-      flex-direction row
-      align-items center
-      gap 0.4em
+      overflow hidden
+      text-overflow ellipsis
+      white-space nowrap
 
       :last-child {
         opacity 0.7
+      }
+
+      .svg-inline--fa {
+        padding 0 0.4em
       }
     }
 
@@ -163,6 +169,7 @@ main {
       align-items center
       justify-content center
       background-color #FEF9E7
+      text-align center
       color #7D6608
       border-radius 0.2em
       padding 1em
