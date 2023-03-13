@@ -38,7 +38,7 @@ header {
     align-items center
     justify-content space-between
     flex-wrap nowrap
-    min-height 1.5em
+    min-height 3.5em
     gap 1em
 
     h1 {
