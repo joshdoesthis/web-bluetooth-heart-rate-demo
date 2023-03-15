@@ -12,6 +12,7 @@ body {
   margin 0
   font-family 'Helvetica Neue', Helvetica, Arial, sans-serif
   color $grey-800
+  line-height 1.2
 }
 
 #root {
@@ -230,7 +231,7 @@ svg {
       }
 
       div.not-supported {
-        background-color $grey-800
+        background-color transparentify($grey-800, 80%)
         color $grey-200
 
         a:link, a:visited {
