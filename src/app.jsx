@@ -127,7 +127,6 @@ const HeartRate = () => {
               <animated.span className='heart-rate-icon' style={spring}>
                 <FontAwesomeIcon icon={faHeart} />
               </animated.span>
-              {console.log(data.slice(-2))}
               <span className='heart-rate-value'>
                 {Number(data.slice(-1)[0].value).valueOf()}
               </span>
