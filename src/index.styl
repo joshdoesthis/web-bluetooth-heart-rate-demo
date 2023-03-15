@@ -1,4 +1,5 @@
 @import 'normalize.css/normalize.css'
+@import 'colors'
 
 $max-width-content = 1024px
 
@@ -10,7 +11,7 @@ body {
   height 100%
   margin 0
   font-family 'Helvetica Neue', Helvetica, Arial, sans-serif
-  color #263238
+  color $grey-800
 }
 
 #root {
@@ -20,10 +21,10 @@ body {
 }
 
 header {
-  background-color white
+  background-color $white
   display flex
   justify-content space-between
-  border-bottom 1px solid #ECEFF1
+  border-bottom 1px solid $grey-200
   position sticky
   top 0px
   z-index 1
@@ -47,7 +48,7 @@ header {
       cursor default
       overflow hidden
       text-overflow ellipsis
-      white-space nowrap
+      $white-space nowrap
 
       :last-child {
         opacity 0.7
@@ -59,11 +60,11 @@ header {
     }
 
     a:link, a:visited {
-      color #263238
+      color $grey-800
       text-decoration none
     }
     a:hover, a:active {
-      color #263238
+      color $grey-800
       text-decoration underline
     }
 
@@ -94,10 +95,10 @@ main {
       gap 1em
 
       button.connect {
-        background-color #00796B
-        border 1px solid #009688
+        background-color $teal-800
+        border 1px solid $teal
         border-radius 0.2em
-        color white
+        color $white
         cursor pointer
         font-size 1em
         font-weight bold
@@ -106,7 +107,7 @@ main {
         transition background-color 0.2s ease-in-out
 
         &:hover {
-          background-color #009688
+          background-color $teal
         }
       }
     }
@@ -118,10 +119,10 @@ main {
       gap 1em
 
       button.disconnect {
-        background-color #C2185B
-        border 1px solid #E91E63
+        background-color $pink-800
+        border 1px solid $pink
         border-radius 0.2em
-        color white
+        color $white
         cursor pointer
         font-size 1em
         font-weight bold
@@ -130,7 +131,7 @@ main {
         transition background-color 0.2s ease-in-out
 
         &:hover {
-          background-color #E91E63
+          background-color $pink
         }
       }
     }
@@ -146,7 +147,7 @@ main {
         cursor default
 
         .fa-heart {
-          color #E91E63
+          color $pink
         }
       }
 
@@ -168,19 +169,19 @@ main {
       display flex
       align-items center
       justify-content center
-      background-color #FEF9E7
+      background-color $deep-purple-50
       text-align center
-      color #7D6608
+      color $deep-purple-900
       border-radius 0.2em
       padding 1em
       cursor default      
 
       a:link, a:visited {
-        color #7D6608
+        color $deep-purple-900
         cursor pointer
       }
       a:hover, a:active {
-        color #7D6608
+        color $deep-purple-900
       }
     }
   }
@@ -189,27 +190,27 @@ main {
 svg {
   g {
     rect {
-      fill #ECEFF1
+      fill $grey-200
     }
   }
 }
 
 @media(prefers-color-scheme: dark) {
   body {
-    background-color #263238
-    color #CFD8DC
+    background-color $grey-900
+    color $grey-200
   }
 
   header {
-    background-color #263238
-    border-bottom 1px solid #37474F
+    background-color $grey-900
+    border-bottom 1px solid $grey-800
 
     div.container {
       a:link, a:visited {
-        color #CFD8DC
+        color $grey-200
       }
       a:hover, a:active {
-        color #CFD8DC
+        color $grey-200
       }
     }
   }
@@ -218,25 +219,25 @@ svg {
     div.container {
       div.disconnected {
         button.connect {
-          color #CFD8DC
+          color $grey-200
         }
       }
 
       div.connected {
         button.disconnect {
-          color #CFD8DC
+          color $grey-200
         }
       }
 
       div.not-supported {
-        background-color #37474F
-        color #CFD8DC
+        background-color $grey-800
+        color $grey-200
 
         a:link, a:visited {
-          color #CFD8DC
+          color $grey-200
         }
         a:hover, a:active {
-          color #CFD8DC
+          color $grey-200
         }
       }
     }
@@ -245,7 +246,7 @@ svg {
   svg {
     g {
       rect {
-        fill #37474F
+        fill $grey-800
       }
     }
   }

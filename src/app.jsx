@@ -9,7 +9,7 @@ import { Group } from '@visx/group'
 import { Bar } from '@visx/shape'
 import { scaleLinear } from '@visx/scale'
 import { withParentSize } from '@visx/responsive'
-import './index.stylus'
+import './index.styl'
 
 const BarChart = withParentSize(props => {
   const { data } = props
@@ -103,12 +103,12 @@ const HeartRate = () => {
     to: { scale: 1 }
   }))
 
-  useEffect(() => {
-    spring_api.start({
-      from: { scale: 0.8 },
-      to: { scale: 1 }
-    })
-  }, [data])
+  // useEffect(() => {
+  spring_api.start({
+    from: { scale: 0.8 },
+    to: { scale: 1 }
+  })
+  // }, [data])
 
   return (
     <>
@@ -122,13 +122,14 @@ const HeartRate = () => {
               <span>{device.name}</span>
             </div>
           </div>
-          {data[data.length - 1]?.value ? (
+          {data.length ? (
             <div className='heart-rate'>
               <animated.span className='heart-rate-icon' style={spring}>
                 <FontAwesomeIcon icon={faHeart} />
               </animated.span>
+              {console.log(data.slice(-2))}
               <span className='heart-rate-value'>
-                {data[data.length - 1].value}
+                {Number(data.slice(-1)[0].value).valueOf()}
               </span>
             </div>
           ) : null}
