@@ -154,6 +154,8 @@ const App = () => {
 
   useEffect(() => {
     if (window.matchMedia) {
+      const { matches } = window.matchMedia('(prefers-color-scheme: dark)')
+      set_dark_mode(matches ? true : false)
       window
         .matchMedia('(prefers-color-scheme: dark)')
         .addEventListener('change', event => {
@@ -190,7 +192,6 @@ const App = () => {
       </header>
       <main>
         <div className='container'>
-          <div className='h-divider' />
           {navigator.bluetooth ? (
             <HeartRate />
           ) : (
