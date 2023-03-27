@@ -146,6 +146,26 @@ const HeartRate = () => {
 }
 
 const App = () => {
+  const [dark_mode, set_dark_mode] = useState(false)
+
+  const toggle_dark_mode = () => {
+    set_dark_mode(!dark_mode)
+  }
+
+  useEffect(() => {
+    if (window.matchMedia) {
+      window
+        .matchMedia('(prefers-color-scheme: dark)')
+        .addEventListener('change', event => {
+          set_dark_mode(event.matches ? true : false)
+        })
+    }
+  }, [])
+
+  useEffect(() => {
+    document.body.classList.toggle('dark', dark_mode)
+  }, [dark_mode])
+
   return (
     <>
       <header>
@@ -155,13 +175,22 @@ const App = () => {
             <FontAwesomeIcon icon={faAngleRight} />
             <span>Web Bluetooth Heart Rate Demo</span>
           </h1>
-          <a href='https://github.com/joshdoesthis/web-bluetooth-heart-rate-demo'>
-            <FontAwesomeIcon icon={faGithub} />
-          </a>
+          <div>
+            <div className='v-divider' />
+            <a href='https://github.com/joshdoesthis/web-bluetooth-heart-rate-demo'>
+              <FontAwesomeIcon icon={faGithub} />
+            </a>
+            <div className='v-divider' />
+            <span
+              className={`dark-mode-switch ${dark_mode ? 'dark' : 'light'}`}
+              onClick={toggle_dark_mode}
+            />
+          </div>
         </div>
       </header>
       <main>
         <div className='container'>
+          <div className='h-divider' />
           {navigator.bluetooth ? (
             <HeartRate />
           ) : (

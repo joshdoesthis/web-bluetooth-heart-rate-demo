@@ -11,7 +11,7 @@ body {
   height 100%
   margin 0
   font-family 'Helvetica Neue', Helvetica, Arial, sans-serif
-  color $grey-800
+  color $grey-900
   line-height 1.2
 }
 
@@ -25,7 +25,7 @@ header {
   background-color $white
   display flex
   justify-content space-between
-  border-bottom 1px solid $grey-200
+  border-bottom 1px solid $grey-300
   position sticky
   top 0px
   z-index 1
@@ -36,12 +36,12 @@ header {
     box-sizing border-box
     max-width $max-width-content
     margin 0 auto
-    padding 1em
+    padding 0 calc(env(safe-area-inset-right) + 1em) 0 calc(env(safe-area-inset-left) + 1em)
     display flex
     align-items center
     justify-content space-between
     flex-wrap nowrap
-    min-height 3.5em
+    height 3.5em
     gap 1em
 
     h1 {
@@ -62,22 +62,65 @@ header {
     }
 
     a:link, a:visited {
-      color $grey-800
+      color $grey-900
       text-decoration none
     }
     a:hover, a:active {
-      color $grey-800
+      color $grey-900
       text-decoration underline
+    }
+
+    div {
+      display flex
+      align-items center
+      gap 2em
+      height 100%
+    }
+
+    div.v-divider {
+      height 100%
+      width 1px
+      background linear-gradient(to top, $grey-300, $white)
     }
 
     .fa-github {
       font-size 1.5em
     }
+
+    span.dark-mode-switch {
+      height 1.2em
+      width 3em
+      background linear-gradient(to right, $white, $black)
+      border-radius 1em
+      cursor pointer
+      position relative
+
+      &::before {
+        content ''
+        display block
+        position absolute
+        height 1em
+        width 1em
+        margin 0.1em
+        box-sizing border-box
+        background linear-gradient(to right, $white, $black)
+        transition transform 0.2s ease-in-out
+        border-radius 1em
+        z-index 1
+      }
+
+      &.light::before {
+        transform translateX(0)
+      }
+
+      &.dark::before {
+        transform translateX(calc(3em - 0.2em - 1em))
+      }
+    }
   }
 }
 
 main {
-  padding 1em
   flex-grow 1
   display flex
   justify-content space-between
@@ -85,10 +128,16 @@ main {
   div.container  {
     width 100%
     max-width $max-width-content
+    box-sizing border-box
+    padding 0 calc(env(safe-area-inset-right) + 1em) 0 calc(env(safe-area-inset-left) + 1em) 
     margin 0 auto
     display flex
     flex-direction column
     gap 1em
+
+    div.h-divider {
+      height 1em 
+    }
 
     div.disconnected {
       display flex
@@ -197,23 +246,28 @@ svg {
   }
 }
 
-@media(prefers-color-scheme: dark) {
-  body {
-    background-color $grey-900
-    color $grey-200
-  }
+body.dark {
+  background-color $grey-900
+  color $grey-100
 
   header {
     background-color $grey-900
-    border-bottom 1px solid $grey-800
+    border-bottom 1px solid $grey-700
 
     div.container {
       a:link, a:visited {
-        color $grey-200
+        color $grey-100
       }
       a:hover, a:active {
-        color $grey-200
+        color $grey-100
       }
+    }
+    
+    div.v-divider {
+      height 100%
+      width 1px
+      background-color $grey-700
+      background linear-gradient(to top, $grey-700, $grey-900)
     }
   }
 
@@ -221,25 +275,25 @@ svg {
     div.container {
       div.disconnected {
         button.connect {
-          color $grey-200
+          color $grey-100
         }
       }
 
       div.connected {
         button.disconnect {
-          color $grey-200
+          color $grey-100
         }
       }
 
       div.not-supported {
         background-color transparentify($grey-800, 80%)
-        color $grey-200
+        color $grey-100
 
         a:link, a:visited {
-          color $grey-200
+          color $grey-100
         }
         a:hover, a:active {
-          color $grey-200
+          color $grey-100
         }
       }
     }
