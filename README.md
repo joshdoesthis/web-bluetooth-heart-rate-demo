@@ -1,6 +1,6 @@
 # Web Bluetooth Heart Rate Demo
 
-This is a demo of using the Web Bluetooth API to connect to a heart rate monitor and display the heart rate.
+This is a demo of the Web Bluetooth API that connects to a heart rate monitor and displays the heart rate. It is currently only supported in Chrome on desktop and Android.
 
 ## Further Reading
 
