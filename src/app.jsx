@@ -166,6 +166,9 @@ const App = () => {
 
   useEffect(() => {
     document.body.classList.toggle('dark', dark_mode)
+    document
+      .querySelector('meta[name="theme-color"]')
+      .setAttribute('content', dark_mode ? '#212121' : '#fff')
   }, [dark_mode])
 
   return (
