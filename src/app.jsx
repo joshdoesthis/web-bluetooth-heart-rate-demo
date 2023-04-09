@@ -107,18 +107,13 @@ const HeartRate = () => {
     to: { scale: 1 }
   })
 
-  /*
-    bg-emerald-200 bg-emerald-800
-    bg-orange-200 bg-orange-800
-  */
-
   return (
     <>
       {device.gatt?.connected ? (
         <div className='flex flex-col gap-4'>
           <div className='flex flex-row gap-4 items-center'>
             <button
-              className='text-white text-lg font-bold px-2 py-1 rounded-md'
+              className='bg-orange-200 bg-orange-800 text-white text-lg font-bold px-2 py-1 rounded-md'
               onClick={handle_disconnect}
             >
               Disconnect
@@ -140,7 +135,7 @@ const HeartRate = () => {
       ) : (
         <div className='flex flex-row gap-4 items-center'>
           <button
-            className='text-white text-lg font-bold px-2 py-1 rounded-md'
+            className='bg-emerald-200 bg-emerald-800 text-white text-lg font-bold px-2 py-1 rounded-md'
             onClick={handle_connect}
           >
             Scan for Heart Rate Monitor
@@ -161,7 +156,7 @@ const App = () => {
             <HeartRate />
           ) : (
             <div className='text-center'>
-              <span className='font-bold font-mono text-sm bg-purple-200 text-black inline-block px-1 py-0 rounded-sm'>
+              <span className='font-bold font-mono text-sm bg-purple-200 text-zinc-800 inline-block px-1 py-0 rounded-sm'>
                 {platform.description} does not support{' '}
                 <a
                   href='https://caniuse.com/web-bluetooth'
