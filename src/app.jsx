@@ -113,7 +113,7 @@ const HeartRate = () => {
         <div className='flex flex-col gap-4'>
           <div className='flex flex-row gap-4 items-center'>
             <button
-              className='bg-orange-200 bg-orange-800 text-white text-lg font-bold px-2 py-1 rounded-md'
+              className='bg-orange-200 text-orange-800 text-lg font-bold px-2 py-1 rounded-md'
               onClick={handle_disconnect}
             >
               Disconnect
@@ -135,7 +135,7 @@ const HeartRate = () => {
       ) : (
         <div className='flex flex-row gap-4 items-center'>
           <button
-            className='bg-emerald-200 bg-emerald-800 text-white text-lg font-bold px-2 py-1 rounded-md'
+            className='bg-emerald-200 text-emerald-800 text-lg font-bold px-2 py-1 rounded-md'
             onClick={handle_connect}
           >
             Scan for Heart Rate Monitor
