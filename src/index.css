@@ -1,0 +1,25 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  a {
+    cursor: pointer;
+  }
+
+  label {
+    user-select: none;
+  }
+}
+
+html.dark {
+  @apply bg-zinc-800 text-zinc-200;
+}
+
+html.light {
+  @apply bg-white text-zinc-800;
+}

@@ -1,15 +1,15 @@
 import { createRoot } from 'react-dom/client'
-import { StrictMode, useState, useEffect } from 'react'
+import { StrictMode, useState } from 'react'
 import platform from 'platform'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faGithub } from '@fortawesome/free-brands-svg-icons'
-import { faHeart, faAngleRight } from '@fortawesome/free-solid-svg-icons'
+import { faHeart } from '@fortawesome/free-solid-svg-icons'
 import { useSpring, animated } from '@react-spring/web'
 import { Group } from '@visx/group'
 import { Bar } from '@visx/shape'
 import { scaleLinear } from '@visx/scale'
 import { withParentSize } from '@visx/responsive'
-import './index.styl'
+import Header from './header'
+import './index.css'
 
 const BarChart = withParentSize(props => {
   const { data } = props
@@ -33,23 +33,22 @@ const BarChart = withParentSize(props => {
   const y_point = compose(y_scale, y)
 
   return (
-    <div className='bar-chart'>
-      <svg width={width} height={height}>
-        {chart_data.reverse().map((d, i) => {
-          const bar_height = height - y_point(d)
-          return (
-            <Group key={`bar-${i}`}>
-              <Bar
-                x={width - bar_width - i * bar_width}
-                y={height - bar_height}
-                height={bar_height}
-                width={`${bar_width}%`}
-              />
-            </Group>
-          )
-        })}
-      </svg>
-    </div>
+    <svg width={width} height={height}>
+      {chart_data.reverse().map((d, i) => {
+        const bar_height = height - y_point(d)
+        return (
+          <Group key={`bar-${i}`}>
+            <Bar
+              x={width - bar_width - i * bar_width}
+              y={height - bar_height}
+              height={bar_height}
+              width={`${bar_width}%`}
+              className='fill-current text-zinc-200 dark:text-zinc-400'
+            />
+          </Group>
+        )
+      })}
+    </svg>
   )
 })
 
@@ -103,41 +102,43 @@ const HeartRate = () => {
     to: { scale: 1 }
   }))
 
-  // useEffect(() => {
   spring_api.start({
     from: { scale: 0.8 },
     to: { scale: 1 }
   })
-  // }, [data])
 
   return (
     <>
       {device.gatt?.connected ? (
-        <>
-          <div className='connected'>
-            <button className='disconnect' onClick={handle_disconnect}>
+        <div className='flex flex-col gap-4'>
+          <div className='flex flex-row gap-4 items-center'>
+            <button
+              className='bg-orange-600 text-white text-lg font-bold px-2 py-1 rounded-md'
+              onClick={handle_disconnect}
+            >
               Disconnect
             </button>
-            <div className='device-name'>
-              <span>{device.name}</span>
-            </div>
+            <span className='font-mono text-lg'>{device.name}</span>
           </div>
           {data.length ? (
-            <div className='heart-rate'>
-              <animated.span className='heart-rate-icon' style={spring}>
+            <div className='flex flex-row justify-end items-center gap-8'>
+              <span className='text-5xl font-bold font-mono'>
+                {Number(data.slice(-1)[0]?.value ?? 0).toFixed(0)}
+              </span>
+              <animated.span className='text-7xl text-rose-400' style={spring}>
                 <FontAwesomeIcon icon={faHeart} />
               </animated.span>
-              <span className='heart-rate-value'>
-                {Number(data.slice(-1)[0].value).valueOf()}
-              </span>
             </div>
           ) : null}
           <BarChart data={data} />
-        </>
+        </div>
       ) : (
-        <div className='disconnected'>
-          <button className='connect' onClick={handle_connect}>
-            Connect
+        <div className='flex flex-row gap-4 items-center'>
+          <button
+            className='bg-emerald-600 text-white text-lg font-bold px-2 py-1 rounded-md'
+            onClick={handle_connect}
+          >
+            Scan for Heart Rate Monitor
           </button>
         </div>
       )}
@@ -146,62 +147,23 @@ const HeartRate = () => {
 }
 
 const App = () => {
-  const [dark_mode, set_dark_mode] = useState(false)
-
-  const toggle_dark_mode = () => {
-    set_dark_mode(!dark_mode)
-  }
-
-  useEffect(() => {
-    if (window.matchMedia) {
-      const { matches } = window.matchMedia('(prefers-color-scheme: dark)')
-      set_dark_mode(matches ? true : false)
-      window
-        .matchMedia('(prefers-color-scheme: dark)')
-        .addEventListener('change', event => {
-          set_dark_mode(event.matches ? true : false)
-        })
-    }
-  }, [])
-
-  useEffect(() => {
-    document.body.classList.toggle('dark', dark_mode)
-    document
-      .querySelector('meta[name="theme-color"]')
-      .setAttribute('content', dark_mode ? '#212121' : '#fff')
-  }, [dark_mode])
-
   return (
     <>
-      <header>
-        <div className='container'>
-          <h1>
-            <a href='https://joshdoesthis.com'>Joshua Wilson</a>
-            <FontAwesomeIcon icon={faAngleRight} />
-            <span>Web Bluetooth Heart Rate Demo</span>
-          </h1>
-          <div>
-            <div className='v-divider' />
-            <a href='https://github.com/joshdoesthis/web-bluetooth-heart-rate-demo'>
-              <FontAwesomeIcon icon={faGithub} />
-            </a>
-            <div className='v-divider' />
-            <span
-              className={`dark-mode-switch ${dark_mode ? 'dark' : 'light'}`}
-              onClick={toggle_dark_mode}
-            />
-          </div>
-        </div>
-      </header>
+      <Header />
       <main>
-        <div className='container'>
+        <div className='flex flex-col gap-4 max-w-7xl mx-auto px-6 py-4'>
           {navigator.bluetooth ? (
             <HeartRate />
           ) : (
-            <div className='not-supported'>
-              <span>
+            <div className='text-center'>
+              <span className='font-bold font-mono text-sm bg-purple-200 text-black inline-block px-1 py-0 rounded-sm'>
                 {platform.description} does not support{' '}
-                <a href='https://caniuse.com/web-bluetooth'>Web Bluetooth</a>
+                <a
+                  href='https://caniuse.com/web-bluetooth'
+                  className='underline'
+                >
+                  Web Bluetooth
+                </a>
               </span>
             </div>
           )}
