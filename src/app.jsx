@@ -148,28 +148,39 @@ const HeartRate = () => {
   )
 }
 
+const Notification = ({ varient, hidden, children }) => {
+  const bg = {
+    'platform-not-supported': 'bg-zinc-400'
+  }
+  if (!hidden)
+    return (
+      <div className='flex justify-center max-w-7xl mx-auto'>
+        <div
+          className={`font-bold font-mono text-sm text-center m-4 px-2 py-1 rounded-sm text-zinc-800 dark:text-zinc-200 bg-opacity-50 ${bg[varient]}`}
+        >
+          {children}
+        </div>
+      </div>
+    )
+}
+
 const App = () => {
   return (
     <>
       <Header />
       <Menu />
+      <Notification
+        varient='platform-not-supported'
+        hidden={navigator.bluetooth ? true : false}
+      >
+        {platform.description} does not support{' '}
+        <a href='https://caniuse.com/web-bluetooth' className='underline'>
+          Web Bluetooth
+        </a>
+      </Notification>
       <main>
         <div className='flex flex-col gap-4 max-w-7xl mx-auto px-6 py-4'>
-          {navigator.bluetooth ? (
-            <HeartRate />
-          ) : (
-            <div className='text-center'>
-              <span className='font-bold font-mono text-sm bg-purple-200 text-zinc-800 inline-block px-1 py-0 rounded-sm'>
-                {platform.description} does not support{' '}
-                <a
-                  href='https://caniuse.com/web-bluetooth'
-                  className='underline'
-                >
-                  Web Bluetooth
-                </a>
-              </span>
-            </div>
-          )}
+          {navigator.bluetooth ? <HeartRate /> : null}
         </div>
       </main>
     </>
