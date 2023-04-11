@@ -8,7 +8,9 @@ import { Group } from '@visx/group'
 import { Bar } from '@visx/shape'
 import { scaleLinear } from '@visx/scale'
 import { withParentSize } from '@visx/responsive'
+import { StateProvider } from './state'
 import Header from './header'
+import Menu from './menu'
 import './index.css'
 
 const BarChart = withParentSize(props => {
@@ -150,6 +152,7 @@ const App = () => {
   return (
     <>
       <Header />
+      <Menu />
       <main>
         <div className='flex flex-col gap-4 max-w-7xl mx-auto px-6 py-4'>
           {navigator.bluetooth ? (
@@ -175,6 +178,8 @@ const App = () => {
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <App />
+    <StateProvider>
+      <App />
+    </StateProvider>
   </StrictMode>
 )
