@@ -39,7 +39,7 @@ const BarChart = withParentSize(({ data, parentWidth }) => {
               y={height - barHeight}
               height={barHeight}
               width={`${barWidth}%`}
-              className='fill-current text-zinc-200 dark:text-zinc-400'
+              className='fill-current text-(zinc-300 dark:zinc-700)'
             />
           </Group>
         )
@@ -149,7 +149,7 @@ const Main = () => {
                   <Box style='row center-center gap-2'>
                     <Button
                       disabled={!navigator.bluetooth}
-                      style='row center-center gap-1 bg-(red-500 dark:red-700) disabled:bg-(zinc-300 dark:zinc-700) hover:bg-(red-700 dark:red-500) text-xs text-white px-2 py-1 rounded'
+                      style='row center-center gap-1 bg-(red-500 dark:red-700) disabled:bg-(zinc-300 dark:zinc-700) hover:bg-(red-700 dark:red-500) text-xs text-white disabled:(text-zinc-500 dark:(text-zinc-300) px-2 py-1 rounded'
                       press={handleDisconnect}
                     >
                       <FontAwesomeIcon icon={faBluetooth} />
