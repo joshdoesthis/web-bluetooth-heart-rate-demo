@@ -1,5 +1,6 @@
 import platform from 'platform'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faBluetooth } from '@fortawesome/free-brands-svg-icons'
 import { faHeart } from '@fortawesome/free-solid-svg-icons'
 import { useSpring, animated } from '@react-spring/web'
 import { Group } from '@visx/group'
@@ -9,41 +10,43 @@ import { withParentSize } from '@visx/responsive'
 import Header from '../component/header'
 import Menu from '../component/menu'
 import { useStore } from '../provider/store'
-import { Box, Button, Text } from '@joshdoesthis/react-ui'
+import { Box, Button, Divider, Text } from '@joshdoesthis/react-ui'
+import { Link } from '@joshdoesthis/react-router'
+import { useCallback, useEffect } from 'react'
 
 const BarChart = withParentSize(props => {
   const { data } = props
   const { parentWidth } = props
 
-  const bar_width = parentWidth / 100
+  const barWidth = parentWidth / 100
   const width = parentWidth
   const height = 100
 
   const y = d => d.value
 
-  const chart_data = data.slice(-101)
+  const chartData = data.slice(-101)
 
-  const y_scale = scaleLinear({
+  const yScale = scaleLinear({
     range: [height, 0],
     round: true,
-    domain: [0, Math.max(...chart_data.map(d => d.value))]
+    domain: [0, Math.max(...chartData.map(d => d.value))]
   })
 
   const compose = (scale, accessor) => data => scale(accessor(data))
-  const y_point = compose(y_scale, y)
+  const yPoint = compose(yScale, y)
 
   return (
     <svg width={width} height={height}>
-      {chart_data.reverse().map((d, i) => {
-        const bar_height = height - y_point(d)
+      {chartData.reverse().map((d, i) => {
+        const barHeight = height - yPoint(d)
         return (
           <Group key={`bar-${i}`}>
             <Bar
-              x={width - bar_width - i * bar_width}
-              y={height - bar_height}
-              height={bar_height}
-              width={`${bar_width}%`}
-              style='fill-current text-zinc-200 dark:text-zinc-400'
+              x={width - barWidth - i * barWidth}
+              y={height - barHeight}
+              height={barHeight}
+              width={`${barWidth}%`}
+              className='fill-current text-zinc-200 dark:text-zinc-400'
             />
           </Group>
         )
@@ -52,140 +55,173 @@ const BarChart = withParentSize(props => {
   )
 })
 
-const HeartRate = () => {
+const Main = () => {
   const { state: store, set: setStore } = useStore()
 
-  // data, set_data, device, set_device
-  const { data, device } = store
-
-  const handle_heart_rate_measurement = e => {
+  const handleHeartRateMeasurement = e => {
     const flag = e.target.value.getUint8(0)
-    const rate_16_bits = flag & 0x1
-    const value = rate_16_bits
+    const rate16Bits = flag & 0x1
+    const value = rate16Bits
       ? e.target.value.getUint16(1, true)
       : e.target.value.getUint8(1)
-    set_data(s => [
+    setStore(s => ({
       ...s,
-      { service: 'heart_rate', value, created_at: new Date() }
-    ])
+      data: [...s.data, { service: 'heart_rate', value, createdAt: new Date() }]
+    }))
   }
 
-  const handle_connect = async () => {
+  const handleConnect = async () => {
     const device = await navigator.bluetooth.requestDevice({
       filters: [{ services: ['heart_rate'] }]
     })
-
     const server = await device.gatt.connect()
     const service = await server.getPrimaryService('heart_rate')
     const characteristic = await service.getCharacteristic(
       'heart_rate_measurement'
     )
-
     await characteristic.startNotifications()
     characteristic.addEventListener(
       'characteristicvaluechanged',
-      handle_heart_rate_measurement
+      handleHeartRateMeasurement
     )
-
-    set_device(device)
+    setStore(s => ({ ...s, device }))
   }
 
-  const handle_disconnect = () => {
-    if (device.gatt.connected) {
-      device.gatt.disconnect()
-
-      set_data([])
-      set_device({})
+  const handleDisconnect = () => {
+    if (store.device?.gatt?.connected) {
+      store.device.gatt.disconnect()
+      setStore(s => ({ ...s, data: [], device: {} }))
     }
   }
 
-  const [spring, spring_api] = useSpring(() => ({
+  const [animatedStyle, spring] = useSpring(() => ({
     from: { scale: 0.8 },
-    to: { scale: 1 }
+    to: { scale: 1 },
+    zIndex: 0
   }))
 
-  spring_api.start({
+  spring.start({
     from: { scale: 0.8 },
     to: { scale: 1 }
   })
 
+  const simulatedHeartRate = () => {
+    const base = store.data?.slice(-1)[0]?.value ?? 60
+    const variance = 1
+    const chance = Math.random()
+    if (chance < 0.1) {
+      return base + variance
+    }
+    if (chance < 0.2) {
+      return base + variance
+    }
+    if (chance < 0.3) {
+      return base + variance
+    }
+    if (chance < 0.4) {
+      return base - variance
+    }
+    if (chance < 0.5) {
+      return base - variance
+    }
+    if (chance < 0.6) {
+      return base - variance
+    }
+    return base
+  }
+
+  useEffect(() => {
+    if (!navigator.bluetooth) {
+      const device = {
+        name: 'Polar H10 12345678',
+        gatt: {
+          connected: true
+        }
+      }
+      setStore(s => ({ ...s, device }))
+      const interval = setInterval(() => {
+        setStore(s => ({
+          ...s,
+          data: [
+            ...(s?.data ?? []),
+            {
+              service: 'heart_rate',
+              value: simulatedHeartRate(),
+              createdAt: new Date()
+            }
+          ]
+        }))
+      }, 1000)
+      return () => clearInterval(interval)
+    }
+  }, [store.data])
+
   return (
     <>
-      {device?.gatt.connected ? (
-        <Box style='flex flex-col gap-4'>
-          <Box style='flex flex-row gap-4 items-center'>
-            <Button
-              style='bg-orange-200 text-orange-800 text-lg font-bold px-2 py-1 rounded-md'
-              press={handle_disconnect}
-            >
-              Disconnect
-            </Button>
-            <span style='font-mono text-lg'>{device.name}</span>
-          </Box>
-          {data.length ? (
-            <Box style='flex flex-row justify-end items-center gap-8'>
-              <span style='text-5xl font-bold font-mono'>
-                {Number(data.slice(-1)[0]?.value ?? 0).toFixed(0)}
-              </span>
-              <animated.span style={spring}>
-                <Text style='text-7xl text-rose-400'>
-                  <FontAwesomeIcon icon={faHeart} />
+      <Menu />
+      <Header
+        BottomComponent={useCallback(() => {
+          if (store.device?.gatt?.connected) {
+            return (
+              <Box style='row center-start bg-(white dark:black) px-4 py-2'>
+                <Box style='row center-center gap-2'>
+                  <Button
+                    style='row center-center gap-1 bg-(red-500 dark:red-700) hover:bg-(red-700 dark:red-500) text-xs text-white px-2 py-1 rounded'
+                    press={handleDisconnect}
+                  >
+                    <FontAwesomeIcon icon={faBluetooth} />
+                    <Text style='text-xs font-bold'>Disconnect</Text>
+                  </Button>
+                  <Text style='text-xs'>{store.device?.name}</Text>
+                </Box>
+              </Box>
+            )
+          }
+          return (
+            <Box style='row center-start bg-(white dark:black) px-4 py-2'>
+              <Button
+                style='row center-center gap-1 bg-(emerald-500 dark:emerald-700) hover:bg-(emerald-700 dark:emerald-500) text-xs text-white px-2 py-1 rounded'
+                press={handleConnect}
+              >
+                <FontAwesomeIcon icon={faBluetooth} />
+                <Text style='text-xs font-bold'>Scan for Devices</Text>
+              </Button>
+            </Box>
+          )
+        }, [store.device])}
+      />
+      <Box style='col grow stretch-start px-4 py-2'>
+        {store.data?.length ? (
+          <Box style='col gap-4'>
+            <Box style='row center-end gap-8'>
+              <Text style='text-5xl font-bold'>
+                {Number(store.data?.slice(-1)[0]?.value ?? 0).toFixed(0)}
+              </Text>
+              <animated.span style={animatedStyle}>
+                <Text style='text-6xl text-red-500'>
+                  <FontAwesomeIcon icon={faHeart} className='' />
                 </Text>
               </animated.span>
             </Box>
-          ) : null}
-          <BarChart data={data} />
-        </Box>
-      ) : (
-        <Box style='flex flex-row gap-4 items-center'>
-          <Button
-            style='bg-emerald-200 text-emerald-800 text-lg font-bold px-2 py-1 rounded-md'
-            press={handle_connect}
-          >
-            Scan for Heart Rate Monitor
-          </Button>
-        </Box>
-      )}
-    </>
-  )
-}
-
-const Notification = ({ varient, hidden, children }) => {
-  const bg = {
-    'platform-not-supported': 'bg-zinc-400'
-  }
-  if (!hidden)
-    return (
-      <Box style='flex justify-center max-w-7xl mx-auto'>
-        <Box
-          style={`font-bold font-mono text-sm text-center m-4 px-2 py-1 rounded-sm text-zinc-800 dark:text-zinc-200 bg-opacity-50 ${bg[varient]}`}
-        >
-          {children}
-        </Box>
+            <BarChart data={store.data} />
+            <Box style='block'>
+              <Text p style='text-xs'>
+                This demo is running simulated heart rate data as{' '}
+                {platform.description} does not support:{' '}
+              </Text>
+              <Text ul style='text-xs underline'>
+                <Text li>
+                  <Link ext path='https://caniuse.com/web-bluetooth'>
+                    Web Bluetooth
+                  </Link>
+                </Text>
+              </Text>
+            </Box>
+          </Box>
+        ) : null}
       </Box>
-    )
-}
-
-const Main = () => {
-  return (
-    <>
-      <Header />
-      <Menu />
-      <Notification
-        varient='platform-not-supported'
-        hidden={navigator.bluetooth ? true : false}
-      >
-        {platform.description} does not support{' '}
-        <a href='https://caniuse.com/web-bluetooth' style='underline'>
-          Web Bluetooth
-        </a>
-      </Notification>
-      <main>
-        <Box style='flex flex-col gap-4 max-w-7xl mx-auto px-6 py-4'>
-          {navigator.bluetooth ? <HeartRate /> : null}
-        </Box>
-      </main>
     </>
   )
 }
+
 export default Main
