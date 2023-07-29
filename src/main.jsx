@@ -105,28 +105,16 @@ const Main = () => {
     to: { scale: 1 }
   })
 
-  const simulatedHeartRate = () => {
-    const base = store.data?.slice(-1)[0]?.value ?? 60
+  const simulatedHeartRate = (start = 60) => {
+    const base = store.data?.slice(-1)[0]?.value ?? start
     const variance = 1
     const chance = Math.random()
-    if (chance < 0.1) {
-      return base + variance
-    }
-    if (chance < 0.2) {
-      return base + variance
-    }
-    if (chance < 0.3) {
-      return base + variance
-    }
-    if (chance < 0.4) {
-      return base - variance
-    }
-    if (chance < 0.5) {
-      return base - variance
-    }
-    if (chance < 0.6) {
-      return base - variance
-    }
+    if (chance < 0.1) return base + variance
+    if (chance < 0.2) return base + variance
+    if (chance < 0.3) return base + variance
+    if (chance < 0.4) return base - variance
+    if (chance < 0.5) return base - variance
+    if (chance < 0.6) return base - variance
     return base
   }
 
