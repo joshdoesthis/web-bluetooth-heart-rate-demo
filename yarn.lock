@@ -373,10 +373,10 @@
     urlpattern-polyfill "^9.0.0"
     uuid "^9.0.0"
 
-"@joshdoesthis/react-ui@^1.0.25":
-  version "1.0.25"
-  resolved "https://registry.yarnpkg.com/@joshdoesthis/react-ui/-/react-ui-1.0.25.tgz#5635daa73cb293c9d37bfcc40391d9981e9d292a"
-  integrity sha512-5WGVHKU9tXBzD9du7FcieBKVCsWG78N1DYIXpQ9NGjRRqIEgFSM2jBToaTOyOft175NGwd6jdUookfWNOcEj6A==
+"@joshdoesthis/react-ui@^1.0.26":
+  version "1.0.26"
+  resolved "https://registry.yarnpkg.com/@joshdoesthis/react-ui/-/react-ui-1.0.26.tgz#a84fd649096e17b7c338afd5a7ae16726aac6946"
+  integrity sha512-CAgh6cib/una4sWeyHR8Zb2NDQ1YRbRsvxL0QzcexyufUrHnaMWlLj5kOAUK37y074S2Cfd9M7EnWCKuoSOVEw==
   dependencies:
     "@twind/core" "^1.1.3"
     "@twind/preset-autoprefix" "^1.0.7"
