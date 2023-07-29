@@ -24,12 +24,12 @@ const BarChart = withParentSize(props => {
 
   const y = d => d.value
 
-  const chartData = data.slice(-101)
+  const chartData = data?.slice(-101)
 
   const yScale = scaleLinear({
     range: [height, 0],
     round: true,
-    domain: [0, Math.max(...chartData.map(d => d.value))]
+    domain: [0, Math.max(...(chartData ? chartData.map(d => d.value) : []))]
   })
 
   const compose = (scale, accessor) => data => scale(accessor(data))
@@ -37,7 +37,7 @@ const BarChart = withParentSize(props => {
 
   return (
     <svg width={width} height={height}>
-      {chartData.reverse().map((d, i) => {
+      {chartData?.reverse().map((d, i) => {
         const barHeight = height - yPoint(d)
         return (
           <Group key={`bar-${i}`}>
@@ -161,41 +161,42 @@ const Main = () => {
       <Menu />
       <Header
         BottomComponent={useCallback(() => {
-          if (store.device?.gatt?.connected) {
-            return (
+          return (
+            <Box style='safe-h'>
               <Box style='row center-start bg-(white dark:black) px-4 py-2'>
-                <Box style='row center-center gap-2'>
+                {store.device?.gatt?.connected ? (
+                  <Box style='row center-center gap-2'>
+                    <Button
+                      disabled={!navigator.bluetooth}
+                      style='row center-center gap-1 bg-(red-500 dark:red-700) disabled:bg-(zinc-300 dark:zinc-700) hover:bg-(red-700 dark:red-500) text-xs text-white px-2 py-1 rounded'
+                      press={handleDisconnect}
+                    >
+                      <FontAwesomeIcon icon={faBluetooth} />
+                      <Text style='text-xs font-bold'>Disconnect</Text>
+                    </Button>
+                    <Text style='text-xs'>{store.device?.name}</Text>
+                  </Box>
+                ) : null}
+                {navigator.bluetooth ? (
                   <Button
-                    style='row center-center gap-1 bg-(red-500 dark:red-700) hover:bg-(red-700 dark:red-500) text-xs text-white px-2 py-1 rounded'
-                    press={handleDisconnect}
+                    style='row center-center gap-1 bg-(emerald-500 dark:emerald-700) hover:bg-(emerald-700 dark:emerald-500) text-xs text-white px-2 py-1 rounded'
+                    press={handleConnect}
                   >
                     <FontAwesomeIcon icon={faBluetooth} />
-                    <Text style='text-xs font-bold'>Disconnect</Text>
+                    <Text style='text-xs font-bold'>Scan for Devices</Text>
                   </Button>
-                  <Text style='text-xs'>{store.device?.name}</Text>
-                </Box>
+                ) : null}
               </Box>
-            )
-          }
-          return (
-            <Box style='row center-start bg-(white dark:black) px-4 py-2'>
-              <Button
-                style='row center-center gap-1 bg-(emerald-500 dark:emerald-700) hover:bg-(emerald-700 dark:emerald-500) text-xs text-white px-2 py-1 rounded'
-                press={handleConnect}
-              >
-                <FontAwesomeIcon icon={faBluetooth} />
-                <Text style='text-xs font-bold'>Scan for Devices</Text>
-              </Button>
             </Box>
           )
         }, [store.device])}
       />
-      <Box style='col grow stretch-start px-4 py-2'>
-        {store.data?.length ? (
+      <Box style='safe-h safe-bottom'>
+        <Box style='col grow gap-4 stretch-start px-4 py-2'>
           <Box style='col gap-4'>
             <Box style='row center-end gap-8'>
               <Text style='text-5xl font-bold'>
-                {Number(store.data?.slice(-1)[0]?.value ?? 0).toFixed(0)}
+                {Number(store?.data?.slice(-1)[0]?.value ?? 0).toFixed(0)}
               </Text>
               <animated.span style={animatedStyle}>
                 <Text style='text-6xl text-red-500'>
@@ -203,7 +204,9 @@ const Main = () => {
                 </Text>
               </animated.span>
             </Box>
-            <BarChart data={store.data} />
+            <BarChart data={store?.data} />
+          </Box>
+          {!navigator.bluetooth && store.data?.length ? (
             <Box style='block'>
               <Text p style='text-xs'>
                 This demo is running simulated heart rate data as{' '}
@@ -217,8 +220,8 @@ const Main = () => {
                 </Text>
               </Text>
             </Box>
-          </Box>
-        ) : null}
+          ) : null}
+        </Box>
       </Box>
     </>
   )
