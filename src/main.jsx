@@ -9,7 +9,7 @@ import { withParentSize } from '@visx/responsive'
 import Header from '../component/header'
 import Menu from '../component/menu'
 import { useStore } from '../provider/store'
-import { Box, Button } from '@joshdoesthis/react-ui'
+import { Box, Button, Text } from '@joshdoesthis/react-ui'
 
 const BarChart = withParentSize(props => {
   const { data } = props
@@ -127,8 +127,10 @@ const HeartRate = () => {
               <span style='text-5xl font-bold font-mono'>
                 {Number(data.slice(-1)[0]?.value ?? 0).toFixed(0)}
               </span>
-              <animated.span style='text-7xl text-rose-400' style={spring}>
-                <FontAwesomeIcon icon={faHeart} />
+              <animated.span style={spring}>
+                <Text style='text-7xl text-rose-400'>
+                  <FontAwesomeIcon icon={faHeart} />
+                </Text>
               </animated.span>
             </Box>
           ) : null}
