@@ -10,28 +10,21 @@ import { withParentSize } from '@visx/responsive'
 import Header from '../component/header'
 import Menu from '../component/menu'
 import { useStore } from '../provider/store'
-import { Box, Button, Divider, Text } from '@joshdoesthis/react-ui'
+import { Box, Button, Text } from '@joshdoesthis/react-ui'
 import { Link } from '@joshdoesthis/react-router'
 import { useCallback, useEffect } from 'react'
 
-const BarChart = withParentSize(props => {
-  const { data } = props
-  const { parentWidth } = props
-
+const BarChart = withParentSize(({ data, parentWidth }) => {
   const barWidth = parentWidth / 100
   const width = parentWidth
   const height = 100
-
   const y = d => d.value
-
   const chartData = data?.slice(-101)
-
   const yScale = scaleLinear({
     range: [height, 0],
     round: true,
     domain: [0, Math.max(...(chartData ? chartData.map(d => d.value) : []))]
   })
-
   const compose = (scale, accessor) => data => scale(accessor(data))
   const yPoint = compose(yScale, y)
 
