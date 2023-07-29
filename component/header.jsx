@@ -23,7 +23,7 @@ export default ({
       <TopComponent />
       <Box style='bg-(white dark:black) border-(b zinc-300 dark:zinc-700) safe-h'>
         <Box style='row center-between'>
-          <Link path='/' style='px-4 py-2'>
+          <Link ext path='https://joshdoesthis.com' style='px-4 py-2'>
             Joshua Wilson
           </Link>
           <Box style='row'>
