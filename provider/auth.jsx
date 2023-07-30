@@ -8,7 +8,7 @@ const store = (key, value) => localStorage.setItem(key, value)
 
 const AuthContext = createContext({})
 
-export const Auth = ({ children }) => {
+const Auth = ({ children }) => {
   const [state, setState] = useState({
     ok: true,
     message: '',
@@ -163,7 +163,7 @@ export const Auth = ({ children }) => {
   )
 }
 
-export const useAuth = () => {
+const useAuth = () => {
   const { subscribe, unsubscribe, set, get, passcode, login, logout, refresh } =
     useContext(AuthContext)
   const [state, setState] = useState(get())
@@ -175,3 +175,5 @@ export const useAuth = () => {
 
   return { state, set, passcode, login, logout, refresh }
 }
+
+export { Auth, useAuth }

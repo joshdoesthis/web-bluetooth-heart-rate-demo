@@ -21,7 +21,7 @@ export default ({
   return (
     <Box style='sticky top-0'>
       <TopComponent />
-      <Box style='bg-(white dark:black) border-(b zinc-300 dark:zinc-700) safe-h'>
+      <Box style='bg-(white dark:black) border-(b zinc-300 dark:zinc-700) safe-x'>
         <Box style='row center-between'>
           <Link ext path='https://joshdoesthis.com' style='px-4 py-2'>
             Joshua Wilson

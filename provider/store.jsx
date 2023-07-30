@@ -6,7 +6,7 @@ const { VITE_AUTH_USER_GROUP } = import.meta.env
 
 const StoreContext = createContext({})
 
-export const Store = ({ children }) => {
+const Store = ({ children }) => {
   const [state, setState] = useState({
     queue: []
   })
@@ -113,7 +113,7 @@ export const Store = ({ children }) => {
   )
 }
 
-export const useStore = () => {
+const useStore = () => {
   const { subscribe, unsubscribe, set, get, query } = useContext(StoreContext)
   const [state, setState] = useState(get())
 
@@ -124,3 +124,5 @@ export const useStore = () => {
 
   return { state, set, query }
 }
+
+export { Store, useStore }

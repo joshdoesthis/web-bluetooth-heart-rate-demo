@@ -41,7 +41,7 @@ export default () => {
     <Drawer
       visible={drawerVisible}
       close={() => store.set({ drawerVisible: false })}
-      style='col fixed top-0 right-0 bottom-0 z-50 max-sm:w-full sm:(w-64 border-(l zinc-300 dark:zinc-700)) bg-(zinc-100 dark:zinc-800) safe-bottom safe-right'
+      style='col fixed top-0 right-0 bottom-0 z-50 max-sm:w-full sm:(w-64 border-(l zinc-300 dark:zinc-700)) bg-(zinc-100 dark:zinc-800) safe-b safe-r'
       TopComponent={({ close }) => {
         return (
           <Box style='row center-end'>

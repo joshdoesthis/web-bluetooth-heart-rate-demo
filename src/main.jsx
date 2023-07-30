@@ -102,11 +102,7 @@ const Main = () => {
     const base = store.data?.slice(-1)[0]?.value ?? start
     const variance = 1
     const chance = Math.random()
-    if (chance < 0.1) return base + variance
-    if (chance < 0.2) return base + variance
     if (chance < 0.3) return base + variance
-    if (chance < 0.4) return base - variance
-    if (chance < 0.5) return base - variance
     if (chance < 0.6) return base - variance
     return base
   }
@@ -143,7 +139,7 @@ const Main = () => {
       <Header
         BottomComponent={useCallback(() => {
           return (
-            <Box style='safe-h'>
+            <Box style='safe-x'>
               <Box style='row center-start bg-(white dark:black) px-4 py-2'>
                 {store.device?.gatt?.connected ? (
                   <Box style='row center-center gap-2'>
@@ -172,7 +168,7 @@ const Main = () => {
           )
         }, [store.device])}
       />
-      <Box style='safe-h safe-bottom'>
+      <Box style='safe-x safe-b'>
         <Box style='col grow gap-4 stretch-start px-4 py-2'>
           <Box style='col gap-4'>
             <Box style='row center-end gap-8'>
