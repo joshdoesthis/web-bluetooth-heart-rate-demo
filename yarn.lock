@@ -364,10 +364,10 @@
   dependencies:
     prop-types "^15.8.1"
 
-"@joshdoesthis/react-router@^1.0.21":
-  version "1.0.21"
-  resolved "https://registry.yarnpkg.com/@joshdoesthis/react-router/-/react-router-1.0.21.tgz#89a83db995f974ba166077103c674f4b5b1b036a"
-  integrity sha512-5ccEYjjzJkic8ltBOwAyCFgevcNxJvhMSULscfNx0OScQmwoBhY5fASGuRIycWB/MJBESmDwmagkNvav6bpJAg==
+"@joshdoesthis/react-router@^1.0.22":
+  version "1.0.22"
+  resolved "https://registry.yarnpkg.com/@joshdoesthis/react-router/-/react-router-1.0.22.tgz#66113e052472522c87fedb805117af8db889566e"
+  integrity sha512-/P+d2eonyVanZZBwiTej8NOZYGB4gjlggTtrHEt8biaj5yFNPDCfM82lXzTVhcZC23xDZda6bHHeyQJtQCnZ5w==
   dependencies:
     react "^18.2.0"
     urlpattern-polyfill "^9.0.0"
