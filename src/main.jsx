@@ -59,7 +59,10 @@ const Main = () => {
       : e.target.value.getUint8(1)
     setStore(s => ({
       ...s,
-      data: [...s.data, { service: 'heart_rate', value, createdAt: new Date() }]
+      data: [
+        ...(s?.data ?? []),
+        { service: 'heart_rate', value, createdAt: new Date() }
+      ]
     }))
   }
 
@@ -145,7 +148,7 @@ const Main = () => {
                   <Box style='row center-center gap-2'>
                     <Button
                       disabled={!navigator.bluetooth}
-                      style='row center-center gap-1 bg-(red-500 dark:red-700) disabled:bg-(zinc-300 dark:zinc-700) hover:bg-(red-700 dark:red-500) text-xs text-white disabled:(text-zinc-500 dark:(text-zinc-300) px-2 py-1 rounded'
+                      style='row center-center gap-1 bg-(red-500 dark:red-700) disabled:bg-(zinc-300 dark:zinc-700) hover:bg-(red-700 dark:red-500) text-xs text-white disabled:(text-zinc-500 dark:(text-zinc-300)) px-2 py-1 rounded'
                       press={handleDisconnect}
                     >
                       <FontAwesomeIcon icon={faBluetooth} />
@@ -154,7 +157,7 @@ const Main = () => {
                     <Text style='text-xs'>{store.device?.name}</Text>
                   </Box>
                 ) : null}
-                {navigator.bluetooth ? (
+                {!store.device?.gatt?.connected && navigator.bluetooth ? (
                   <Button
                     style='row center-center gap-1 bg-(emerald-500 dark:emerald-700) hover:bg-(emerald-700 dark:emerald-500) text-xs text-white px-2 py-1 rounded'
                     press={handleConnect}
