@@ -14,7 +14,7 @@ This is a demo of the Web Bluetooth API that connects to a heart rate monitor an
 
 ## Demo
 
-1. Go to [https://web-bluetooth-heart-rate-demo.joshdoesthis.com/](https://web-bluetooth-heart-rate-demo.joshdoesthis.com/)
+1. Go to [https://joshdoesthis.github.io/web-bluetooth-heart-rate-demo/](https://joshdoesthis.github.io/web-bluetooth-heart-rate-demo/)
 2. Click the "Connect" button
 3. Select your heart rate monitor from the list
 4. Click "Pair"
