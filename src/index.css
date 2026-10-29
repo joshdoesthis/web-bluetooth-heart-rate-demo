@@ -1,0 +1,32 @@
+@import 'tailwindcss';
+
+/* Dark mode follows a `dark` class on <html>, set by the theme toggle. */
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* Keep content clear of notches and rounded corners on phones. */
+@utility safe-x {
+  padding-left: env(safe-area-inset-left);
+  padding-right: env(safe-area-inset-right);
+}
+
+@utility safe-r {
+  padding-right: env(safe-area-inset-right);
+}
+
+@utility safe-b {
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+@layer base {
+  html {
+    @apply bg-white text-zinc-900 antialiased dark:bg-black dark:text-zinc-100;
+  }
+
+  #root {
+    @apply flex min-h-dvh flex-col;
+  }
+
+  button:not(:disabled) {
+    @apply cursor-pointer;
+  }
+}

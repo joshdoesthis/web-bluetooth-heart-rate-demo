@@ -1,29 +1,19 @@
-import { createRoot } from 'react-dom/client'
 import { StrictMode } from 'react'
-import { Router, Route } from '@joshdoesthis/react-router'
+import { createRoot } from 'react-dom/client'
 import { Store } from '../provider/store'
-import { Auth } from '../provider/auth'
-import { Theme } from '@joshdoesthis/react-ui'
 import Main from './main'
 import NotFound from './404'
+import './index.css'
 
-const App = () => {
-  return (
-    <Router>
-      <Route path='/' exact component={Main} />
-      <Route path='/404' component={NotFound} />
-    </Router>
-  )
+// The demo has one page, so anything other than the home path is a 404.
+const isHome = () => {
+  const base = import.meta.env.BASE_URL
+  const path = window.location.pathname
+  return path === base || path === `${base}index.html`
 }
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <Auth>
-      <Store>
-        <Theme>
-          <App />
-        </Theme>
-      </Store>
-    </Auth>
+    <Store>{isHome() ? <Main /> : <NotFound />}</Store>
   </StrictMode>
 )

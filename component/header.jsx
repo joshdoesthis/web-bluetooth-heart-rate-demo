@@ -1,5 +1,3 @@
-import { Box, Button, DarkMode } from '@joshdoesthis/react-ui'
-import { Link } from '@joshdoesthis/react-router'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {
   faBars as solidBars,
@@ -8,51 +6,54 @@ import {
 } from '@fortawesome/free-solid-svg-icons'
 import { faCircle as regularCircle } from '@fortawesome/free-regular-svg-icons'
 import { useStore } from '../provider/store'
+import { useTheme } from '../provider/theme'
 
-const DefaultTopComponent = () => {}
-const DefaultBottomComponent = () => {}
+const themeIcons = {
+  light: regularCircle,
+  dark: solidCircle,
+  auto: solidCircleHalfStroke
+}
 
-export default ({
-  TopComponent = DefaultTopComponent,
-  BottomComponent = DefaultBottomComponent
-}) => {
-  const store = useStore()
+const Header = ({ children }) => {
+  const { set } = useStore()
+  const theme = useTheme()
 
   return (
-    <Box style='sticky top-0'>
-      <TopComponent />
-      <Box style='bg-(white dark:black) border-(b zinc-300 dark:zinc-700) safe-x'>
-        <Box style='row center-between'>
-          <Link ext path='https://joshdoesthis.com' style='px-4 py-2'>
+    <header className='sticky top-0 z-10'>
+      <div className='border-b border-zinc-300 bg-white safe-x dark:border-zinc-700 dark:bg-black'>
+        <div className='flex items-center justify-between'>
+          <a
+            href='https://github.com/joshdoesthis'
+            target='_blank'
+            rel='noopener noreferrer'
+            className='px-4 py-2'
+          >
             Joshua Wilson
-          </Link>
-          <Box style='row'>
-            <DarkMode
-              defaultMode='auto'
-              SwitchComponent={({ mode, cycle }) => (
-                <Button style='px-4 py-2' press={cycle}>
-                  <FontAwesomeIcon
-                    icon={
-                      {
-                        light: regularCircle,
-                        dark: solidCircle,
-                        auto: solidCircleHalfStroke
-                      }[mode]
-                    }
-                  />
-                </Button>
-              )}
-            />
-            <Button
-              style='px-4 py-2'
-              press={() => store.set({ drawerVisible: true })}
+          </a>
+          <div className='flex'>
+            <button
+              type='button'
+              className='px-4 py-2'
+              onClick={theme.cycle}
+              aria-label={`Theme: ${theme.mode}. Click to change.`}
+              title={`Theme: ${theme.mode}`}
+            >
+              <FontAwesomeIcon icon={themeIcons[theme.mode]} />
+            </button>
+            <button
+              type='button'
+              className='px-4 py-2'
+              onClick={() => set({ drawerVisible: true })}
+              aria-label='Open menu'
             >
               <FontAwesomeIcon icon={solidBars} />
-            </Button>
-          </Box>
-        </Box>
-      </Box>
-      <BottomComponent />
-    </Box>
+            </button>
+          </div>
+        </div>
+      </div>
+      {children}
+    </header>
   )
 }
+
+export default Header

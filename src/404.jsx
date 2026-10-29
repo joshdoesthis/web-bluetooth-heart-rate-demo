@@ -1,4 +1,3 @@
-import { Box, Text, Divider } from '@joshdoesthis/react-ui'
 import Header from '../component/header'
 import Menu from '../component/menu'
 
@@ -7,11 +6,16 @@ const NotFound = () => {
     <>
       <Menu />
       <Header />
-      <Box style='row grow center-center gap-4'>
-        <Text h6>404</Text>
-        <Divider style='border-(l zinc-300 dark:(zinc-700)) h-8' />
-        <Text p>Page not found.</Text>
-      </Box>
+      <main className='flex grow items-center justify-center gap-4'>
+        <h1 className='font-semibold'>404</h1>
+        <div className='h-8 border-l border-zinc-300 dark:border-zinc-700' />
+        <p>
+          Page not found.{' '}
+          <a href={import.meta.env.BASE_URL} className='underline'>
+            Go to the demo
+          </a>
+        </p>
+      </main>
     </>
   )
 }

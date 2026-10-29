@@ -22,7 +22,11 @@ This is a demo of the Web Bluetooth API that connects to a heart rate monitor an
 
 ## Running Locally
 
+You'll need Node.js 20.19 or later.
+
 1. Clone the repo
-2. Run `yarn` to install dependencies
-3. Run `yarn dev` to start the dev server
+2. Run `npm install` to install dependencies
+3. Run `npm run dev` to start the dev server
 4. Open `http://localhost:3000` in your browser
+
+In a browser without Web Bluetooth, the demo shows simulated heart rate data instead.
